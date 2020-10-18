@@ -1,0 +1,22 @@
+*
+    box-sizing: border-box
+.app-wrapper
+    display: grid
+    grid-template-rows: 60px 1fr
+    grid-template-columns: 2fr 10fr
+    /** grid-gap: 10px **/
+    grid-template-areas: "header header" "nav content"
+
+.header
+    grid-area: header
+    background-color: green
+    &__img
+        width: 65px
+.nav
+    grid-area: nav
+    background-color: red
+.content
+    grid-area: content
+    &__head
+        min-height: 110px
+        background: url('https://art-assorty.ru/wp-content/uploads/2019/07/407-1.jpg') center (center / cover) no-repeat
