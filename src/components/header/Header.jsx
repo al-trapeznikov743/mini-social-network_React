@@ -1,9 +1,9 @@
 import React from 'react'
 import logo from '../../img/snake.png'
-import classes from './Header.module.sass'
+import styles from './Header.module.sass'
 
 const Header = () => {
-    return  <header className ={classes.header}>
+    return  <header className ={styles.header}>
                 <a href='/#'>
                     {createLogo()}
                 </a>
@@ -11,7 +11,7 @@ const Header = () => {
 }
 
 function createLogo() {
-    return <img src = {logo} alt = 'logo' className = {classes.img}/>
+    return <img src = {logo} alt = 'logo' className = {styles.img}/>
 }
 
 export default Header
