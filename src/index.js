@@ -1,33 +1,28 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import './index.css';
+import store from './redux/state'
 import App from './App';
+import {BrowserRouter} from 'react-router-dom';
 import * as serviceWorker from './serviceWorker';
+import './index.css';
 
-let posts = [
-  {id: 1, message: 'Hi, how are you?', likesCount: 12},
-  {id: 1, message: 'It\'s my first post', likesCount: 9}
-]
 
-let dialogs = [
-  {id: 1, name: 'Dimon'},
-  {id: 1, name: 'Sveta'},
-  {id: 1, name: 'Kent'},
-  {id: 1, name: 'Denchik'}
-]
+let rerenderEntireTree = (state) => {
+  ReactDOM.render(
+    <React.StrictMode>
+      <BrowserRouter>
+        <App 
+          state={state}
+          dispatch={store.dispatch.bind(store)}
+        />
+      </BrowserRouter>
+    </React.StrictMode>, document.getElementById('root')
+  );
+}
 
-let messages = [
-  {id:1, message: 'Hi'},
-  {id:1, message: 'How is your it-kamasutra'},
-  {id:1, message: 'Yo'}
-]
+rerenderEntireTree(store.getState())
 
-ReactDOM.render(
-  <React.StrictMode>
-    <App posts={posts} dialogs={dialogs} messages={messages}/>
-  </React.StrictMode>,
-  document.getElementById('root')
-);
+store.subscribe(rerenderEntireTree)
 
 // If you want your app to work offline and load faster, you can change
 // unregister() to register() below. Note this comes with some pitfalls.
