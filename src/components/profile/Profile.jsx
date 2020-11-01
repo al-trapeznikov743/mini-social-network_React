@@ -6,7 +6,11 @@ import styles from './Profile.module.sass'
 const Profile = (props) => {
     return  <div className ={styles.content}>
                 <ProfileInfo />
-                <MyPosts posts={props.posts}/>
+                <MyPosts
+                    posts={props.state.posts}
+                    newPostText={props.state.newPostText}
+                    dispatch={props.dispatch}
+                />
             </div>
 }
 
