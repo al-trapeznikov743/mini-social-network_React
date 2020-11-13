@@ -6,14 +6,14 @@ import {
 const initialState = {
     dialogs: [
         {id: 1, name: 'Dimon'},
-        {id: 1, name: 'Sveta'},
-        {id: 1, name: 'Kent'},
-        {id: 1, name: 'Denchik'}
+        {id: 2, name: 'Sveta'},
+        {id: 3, name: 'Kent'},
+        {id: 4, name: 'Denchik'}
     ],
     messages: [
         {id:1, message: 'Hi'},
-        {id:1, message: 'How is your it-kamasutra'},
-        {id:1, message: 'Yo'}
+        {id:2, message: 'How is your it-kamasutra'},
+        {id:3, message: 'Yo'}
     ],
     newMessageText: ''
 }
@@ -21,20 +21,21 @@ const initialState = {
 export const dialogsReducer = (state = initialState, action) => {
     switch(action.type) {
         case UPDATE_NEW_MESSAGE: {
-            const newState = {...state}
-            newState.newMessageText = action.text
-            return newState
+            return {
+                ...state,
+                newMessageText: action.text
+            }
         }
         case SEND_MESSAGE: {
             const newMessage = {
-                id: 2,
+                id: 4,
                 message: state.newMessageText
             }
-            const newState = {...state}
-            newState.messages = [...state.messages]
-            newState.messages.push(newMessage)
-            newState.newMessageText = ''
-            return newState
+            return {
+                ...state,
+                messages: [...state.messages, newMessage],
+                newMessageText: ''
+            }
         }
         default: return state
     }
