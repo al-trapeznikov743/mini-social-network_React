@@ -1,25 +1,30 @@
 import React from 'react'
+import {NavLink} from 'react-router-dom'
 import styles from './Users.module.sass'
 
 const Users = (props) => {
     const pagesCount = Math.ceil(props.totalUsersCount/props.pageSize)
 
-        const pages = []
+    const pages = []
 
-        for(let i = 1; i <= pagesCount; i++) {
-            pages.push(i)
-        }
+    for(let i = 1; i <= pagesCount; i++) {
+        pages.push(i)
+    }
 
     const usersList = props.users.map(user => (
         <div key={user.id}>
             <span>
                 <div>
-                    <img className={styles.userAva} src={user.photos.small !== null ? user.photos.small : props.photoURL} alt='user' />
+                    <NavLink to={`/profile/${user.id}`}>
+                        <img className={styles.userAva} src={user.photos.small !== null ? user.photos.small : props.photoURL} alt='user' />
+                    </NavLink>
                 </div>
                 <div>
-                    {user.followed
-                        ? <button onClick={() => {props.unfollow(user.id)}}>Unfollow</button>
-                        : <button onClick={() => {props.follow(user.id)}}>Follow</button>}
+                    <button
+                        disabled={props.followingInProgress.some(id => id === user.id)}
+                        onClick={() => {
+                            props.changeFollow(user.id, user.followed)}}
+                        >{user.followed ? 'Unfollow' : 'Follow'}</button>
                 </div>
             </span>
             <span>

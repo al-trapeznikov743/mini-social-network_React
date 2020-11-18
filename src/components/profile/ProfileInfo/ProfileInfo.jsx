@@ -1,11 +1,16 @@
 import React from 'react'
+import Preloader from '../../common/preloader/Preloader'
 import styles from './ProfileInfo.module.sass'
 
-const ProfileInfo = () => {
+const ProfileInfo = (props) => {
+    if (!props.profile) {
+        return <Preloader />
+    }
+
     return  <div>
                 <div className={styles.head}></div>
                 <div className={styles.description}>
-                    ava + description
+                    <img src={props.profile.photos.large} alt='pp'/> + description
                 </div>
             </div>
 }

@@ -1,4 +1,5 @@
 import React from 'react'
+import {Redirect} from 'react-router-dom'
 import styles from './Dialogs.module.sass'
 import DialogItem from './DialogItem/DialogItem'
 import Message from './Message/Message'
@@ -20,9 +21,13 @@ const Dialogs = (props) => {
     const sendMessage = () => {
         props.sendMessage()
     }
-    const onUpdateMessage = (event) => {
+    const updateMessage = (event) => {
         let body = event.target.value
-        props.onUpdateMessage(body)
+        props.updateMessage(body)
+    }
+
+    if(!props.isAuth) {
+        return <Redirect to='/login' />
     }
 
     return  <div className={styles.dialogs}>
@@ -38,7 +43,7 @@ const Dialogs = (props) => {
                             <textarea
                                 placeholder='Enter your message'
                                 value={newMessageText}
-                                onChange={onUpdateMessage}
+                                onChange={updateMessage}
                             >
                             </textarea>
                         </div>

@@ -1,5 +1,6 @@
 import {
     ADD_POST,
+    SET_USER_PROFILE,
     UPDATE_NEW_POST
 } from '../types'
 
@@ -8,7 +9,8 @@ const initialState = {
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
         {id: 2, message: 'It\'s my first post', likesCount: 9}
     ],
-    newPostText: ''
+    newPostText: '',
+    profile: null
 }
 
 export const profileReducer = (state = initialState, action) => {
@@ -29,6 +31,12 @@ export const profileReducer = (state = initialState, action) => {
                 ...state,
                 posts: [...state.posts, newPost],
                 newPostText: ''
+            }
+        }
+        case SET_USER_PROFILE: {
+            return {
+                ...state,
+                profile: action.profile
             }
         }
         default: return state
