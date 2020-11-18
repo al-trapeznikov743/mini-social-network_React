@@ -4,15 +4,18 @@ import {
     SET_TOTAL_USERS_COUNT,
     SET_USERS,
     TOGGLE_IS_FETCHING,
+    TOGGLE_IS_FOLLOWING,
     UNFOLLOW
 } from '../types'
+
 
 const initialState = {
     users: [],
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
-    isFetching: true
+    isFetching: true,
+    followingInProgress: []
 }
 
 export const usersReducer = (state = initialState, action) => {
@@ -68,6 +71,14 @@ export const usersReducer = (state = initialState, action) => {
             return {
                 ...state,
                 isFetching: action.isFetching
+            }
+        }
+        case TOGGLE_IS_FOLLOWING: {
+            return {
+                ...state,
+                followingInProgress: action.isFetching
+                ? [...state.followingInProgress, action.userId]
+                : state.followingInProgress.filter(id => id !== action.userId)
             }
         }
         default: return state

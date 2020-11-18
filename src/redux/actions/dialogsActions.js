@@ -3,12 +3,12 @@ import {
     UPDATE_NEW_MESSAGE
 } from '../types'
 
-export const sendMessageActionCreator = () => {
+export const sendMessage = () => {
     return {
         type: SEND_MESSAGE
     }
 }
-export const updateNewMessageActionCreator = (text) => {
+export const updateMessage = (text) => {
     return {
         type: UPDATE_NEW_MESSAGE,
         text:text
