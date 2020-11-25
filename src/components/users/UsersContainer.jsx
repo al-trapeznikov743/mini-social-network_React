@@ -1,5 +1,6 @@
 import React from 'react'
 import {connect} from 'react-redux'
+import {compose} from 'redux'
 import {
     getUsers,
     getNextPage,
@@ -51,8 +52,17 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps, {
+
+export default compose(
+    connect(mapStateToProps, {
+        getUsers,
+        getNextPage,
+        changeFollow
+    })
+)(UsersContainer)
+
+/* export default connect(mapStateToProps, {
     getUsers,
     getNextPage,
     changeFollow
-})(UsersContainer)
+})(UsersContainer) */

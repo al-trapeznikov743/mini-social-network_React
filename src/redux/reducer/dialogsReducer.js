@@ -1,6 +1,5 @@
 import {
-    SEND_MESSAGE,
-    UPDATE_NEW_MESSAGE
+    SEND_MESSAGE
 } from '../types'
 
 const initialState = {
@@ -14,27 +13,19 @@ const initialState = {
         {id:1, message: 'Hi'},
         {id:2, message: 'How is your it-kamasutra'},
         {id:3, message: 'Yo'}
-    ],
-    newMessageText: ''
+    ]
 }
 
 export const dialogsReducer = (state = initialState, action) => {
     switch(action.type) {
-        case UPDATE_NEW_MESSAGE: {
-            return {
-                ...state,
-                newMessageText: action.text
-            }
-        }
         case SEND_MESSAGE: {
             const newMessage = {
                 id: 4,
-                message: state.newMessageText
+                message: action.messageBody
             }
             return {
                 ...state,
-                messages: [...state.messages, newMessage],
-                newMessageText: ''
+                messages: [...state.messages, newMessage]
             }
         }
         default: return state

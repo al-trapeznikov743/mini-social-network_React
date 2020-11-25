@@ -1,16 +1,10 @@
 import {
-    SEND_MESSAGE,
-    UPDATE_NEW_MESSAGE
+    SEND_MESSAGE
 } from '../types'
 
-export const sendMessage = () => {
+export const sendMessage = (messageBody) => {
     return {
-        type: SEND_MESSAGE
-    }
-}
-export const updateMessage = (text) => {
-    return {
-        type: UPDATE_NEW_MESSAGE,
-        text:text
+        type: SEND_MESSAGE,
+        messageBody
     }
 }
