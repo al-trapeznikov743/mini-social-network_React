@@ -22,10 +22,22 @@ export const usersAPI = {
 export const profileAPI = {
     getProfile(userId) {
         return instAxios.get(`profile/${userId}`)
+    },
+    getUserStatus(userId) {
+        return instAxios.get(`profile/status/${userId}`)
+    },
+    updateStatus(status) {
+        return instAxios.put(`profile/status`, {status})
     }
 }
 export const authAPI = {
     me() {
         return instAxios.get(`auth/me`)
+    },
+    login(email, password, rememberMe = false) {
+        return instAxios.post(`auth/login`, {email, password, rememberMe})
+    },
+    logout() {
+        return instAxios.delete(`auth/login`)
     }
 }

@@ -1,19 +1,14 @@
 import {profileAPI} from '../../api/api'
 import {
     ADD_POST,
-    SET_USER_PROFILE,
-    UPDATE_NEW_POST
+    SET_STATUS,
+    SET_USER_PROFILE
 } from '../types'
 
-export const addPostActionCreator = () => {
+export const addPost = (newPostText) => {
     return {
-        type: ADD_POST
-    }
-}
-export const updatePostTextActionCreator = (text) => {
-    return {
-        type: UPDATE_NEW_POST,
-        text: text
+        type: ADD_POST,
+        newPostText
     }
 }
 
@@ -24,11 +19,35 @@ const setUserProfile = (profile) => {
     }
 }
 
+const setStatus = (status) => {
+    return {
+        type: SET_STATUS,
+        status
+    }
+}
+
 // redux-thunk
 export const getUserProfile = (userId) => {
     return (dispatch) => {
         profileAPI.getProfile(userId).then(response => {
             dispatch(setUserProfile(response.data))
+        })
+    }
+}
+
+export const getUserStatus = (userId) => {
+    return (dispatch) => {
+        profileAPI.getUserStatus(userId).then(response => {
+            dispatch(setStatus(response.data))
+        })
+    }
+}
+
+export const updateStatus = (status) => {
+    return (dispatch) => {
+        profileAPI.updateStatus(status).then(response => {
+            if(response.data.resultCode === 0)
+            dispatch(setStatus(status))
         })
     }
 }
