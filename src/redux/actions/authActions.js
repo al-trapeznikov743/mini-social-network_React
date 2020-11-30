@@ -17,7 +17,7 @@ const setAuthUserData = (userId, email, login, isAuth) => {
 // redux-thunk
 export const getAuthUserData = () => {
     return (dispatch) => {
-        authAPI.me().then(response => {
+        return authAPI.me().then(response => {
             if(response.data.resultCode === 0) {
                 const {id, email, login} = response.data.data
                 dispatch(setAuthUserData(id, email, login, true))

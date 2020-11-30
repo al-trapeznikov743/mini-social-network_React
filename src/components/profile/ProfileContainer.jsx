@@ -1,24 +1,28 @@
 import React from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'
-import Profile from './Profile'
+import {compose} from 'redux'
 import {getUserProfile, getUserStatus, updateStatus} from '../../redux/actions/profileActions'
 // import {withAuthRedirect} from '../../hoc/withAuthRedirect'
-import { compose } from 'redux'
+import Profile from './Profile'
 
 class ProfileContainer extends React.Component {
     componentDidMount() {
-        // this.props.toggleIsFetching(true)
         let userId = this.props.match.params.userId
         if(!userId) {
             userId = this.props.authorizedUserID
+            if(!userId) {
+                this.props.history.push('/login')
+                // возможно этот return придётся удалить
+                return undefined
+            }
         }
         this.props.getUserProfile(userId)
         this.props.getUserStatus(userId)
     }
 
     render() {
-        return  <Profile {...this.props} /> // + profile={this.props.profile}
+        return  <Profile {...this.props} />
     }
 }
 
@@ -40,10 +44,3 @@ export default compose(
     withRouter,
     // withAuthRedirect
 )(ProfileContainer)
-
-
-/* const AuthRedirectComponent = withAuthRedirect(ProfileContainer)
-
-const WithURLDataContainer = withRouter(AuthRedirectComponent)
-
-export default connect(mapStateToProps, {getUserProfile})(WithURLDataContainer) */
