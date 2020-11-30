@@ -6,7 +6,9 @@ import styles from './MyPosts.module.sass'
 import Post from './post/Post'
 
 
-const MyPosts = (props) => {
+const MyPosts = React.memo((props) => {
+
+    console.log('RENDER MyPosts')
 
     let postsElements = props.posts.map(
         post => <Post
@@ -28,7 +30,8 @@ const MyPosts = (props) => {
                     {postsElements}
                 </div>
             </div>
-}
+})
+
 
 const maxLength = maxLengthCreator(50)
 
