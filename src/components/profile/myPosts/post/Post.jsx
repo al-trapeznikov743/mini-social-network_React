@@ -2,7 +2,6 @@ import React from 'react'
 import styles from './Post.module.sass'
 
 const Post = React.memo((props) => {
-    console.log('RENDER Post')
     return  <div className={styles.item}>
                 <img 
                     src='https://sova.ponominalu.ru/wp-content/uploads/2019/08/ava-max.jpg' 

@@ -8,8 +8,6 @@ import Post from './post/Post'
 
 const MyPosts = React.memo((props) => {
 
-    console.log('RENDER MyPosts')
-
     let postsElements = props.posts.map(
         post => <Post
                     message={post.message}

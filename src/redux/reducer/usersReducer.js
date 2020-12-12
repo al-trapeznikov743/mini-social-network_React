@@ -1,3 +1,4 @@
+import {updateObjectInArray} from '../../utils/helpers/objectHelpers'
 import {
     FOLLOW,
     SET_CURRENT_PAGE,
@@ -23,31 +24,13 @@ export const usersReducer = (state = initialState, action) => {
         case FOLLOW: {
             return {
                 ...state,
-                users: state.users.map(user => {
-                    if (user.id === action.id) {
-                        /* if (user.followed === true) {
-                            alert('You are already following a user')
-                            return user
-                        } */
-                        return {...user, followed: true}
-                    }
-                    return user
-                })
+                users: updateObjectInArray(state.users, action.id, 'id', {followed: true})
             }
         }
         case UNFOLLOW: {
             return {
                 ...state,
-                users: state.users.map(user => {
-                    if (user.id === action.id) {
-                        /* if (user.followed === false) {
-                            alert('you have already unfollow from the user')
-                            return user
-                        } */
-                        return {...user, followed: false}
-                    }
-                    return user
-                })
+                users: updateObjectInArray(state.users, action.id, 'id', {followed: false})
             }
         }
         case SET_USERS: {

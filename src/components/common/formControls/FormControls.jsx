@@ -1,4 +1,5 @@
 import React from 'react'
+import {Field} from 'redux-form'
 // import styles from './FormControls.module.sass'
 
 export const Textarea = ({input, meta, ...props}) => {
@@ -17,3 +18,9 @@ export const Input = ({input, meta, ...props}) => {
 
 
 // meta.touched && !input.value && <span>{meta.error}</span>
+
+export const fealdCreator = (props) => {
+    return <div>
+        <Field {...props} />
+    </div>
+}

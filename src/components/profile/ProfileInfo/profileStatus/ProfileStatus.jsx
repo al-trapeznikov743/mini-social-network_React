@@ -2,7 +2,7 @@ import React, {useState, useEffect} from 'react'
 // import {profileAPI} from '../../../../api/api'
 // import styles from '../ProfileInfo.module.sass'
 
-const ProfileStatusWithHooks = (props) => {
+const ProfileStatus = (props) => {
     const [editMode, setEditMode] = useState(false)
     const [status, setStatus] = useState(props.status)
 
@@ -38,9 +38,9 @@ const ProfileStatusWithHooks = (props) => {
                 ></input>
             </div>
             : <div>
-                <span onDoubleClick={toggleActivateEditMode}>{props.status || 'add status'}</span>
+                <b>Status: </b><span onDoubleClick={toggleActivateEditMode}>{props.status || 'add status'}</span>
             </div>}
     </>
 }
 
-export default ProfileStatusWithHooks
+export default ProfileStatus

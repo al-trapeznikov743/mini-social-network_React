@@ -1,5 +1,7 @@
 import {
     ADD_POST,
+    DELETE_POST,
+    SET_AVA_SUCCESS,
     SET_STATUS,
     SET_USER_PROFILE
 } from '../types'
@@ -26,6 +28,12 @@ export const profileReducer = (state = initialState, action) => {
                 posts: [...state.posts, newPost]
             }
         }
+        case DELETE_POST: {
+            return {
+                ...state,
+                posts: state.posts.filter(p => p.id !== action.postId)
+            }
+        }
         case SET_USER_PROFILE: {
             return {
                 ...state,
@@ -36,6 +44,12 @@ export const profileReducer = (state = initialState, action) => {
             return {
                 ...state,
                 status: action.status
+            }
+        }
+        case SET_AVA_SUCCESS: {
+            return {
+                ...state,
+                profile: {...state.profile, photos: action.photos}
             }
         }
         default: return state
