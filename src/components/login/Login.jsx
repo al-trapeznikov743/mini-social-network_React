@@ -23,8 +23,20 @@ const LoginForm = (props) => {
                     />
                 </div>
                 <div>
-                    <Field type={'checkbox'} name={'remember'} component={'input'} /> remember me
+                    <Field type={'checkbox'} name={'rememberMe'} component={'input'} /> remember me
                 </div>
+                {/* this is check captcha */}
+                {props.captchaURL
+                    && <div>
+                        <img src={props.captchaURL} alt='captha-img'/>
+                        <Field
+                            placeholder={'Enter captcha'}
+                            name={'captcha'}
+                            component={Input}
+                            validate={[required]}
+                        />
+                    </div>}
+
                 {/* добавить норм валидацию здесь и в profilePosts and messages */}
                 {props.error && <div>{props.error}</div>}
                 <div>
@@ -37,21 +49,22 @@ const LoginReduxForm = reduxForm({form: 'login'})(LoginForm)
 
 const Login = (props) => {
     const onSubmit = (formData) => {
-        const {email, password, remember} = formData
-        props.login(email, password, remember)
+        const {email, password, remember, captcha} = formData
+        props.login(email, password, remember, captcha)
     }
     if(props.isAuth) {
         return <Redirect to={'/profile'} />
     }
     return <div>
         <h1>LOGIN</h1>
-        <LoginReduxForm onSubmit={onSubmit} />
+        <LoginReduxForm onSubmit={onSubmit} captchaURL={props.captchaURL} />
     </div>
 }
 
 const mapStateToProps = (state) => {
     return {
-        isAuth: state.auth.isAuth
+        isAuth: state.auth.isAuth,
+        captchaURL: state.auth.captchaURL
     }
 }
 

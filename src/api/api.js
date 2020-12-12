@@ -28,16 +28,30 @@ export const profileAPI = {
     },
     updateStatus(status) {
         return instAxios.put(`profile/status`, {status})
+    },
+    updateAvatar(file) {
+        const formData = new FormData()
+        formData.append('image', file)
+
+        return instAxios.put(`profile/photo`, formData)
+    },
+    updateProfile(profile) {
+        return instAxios.put(`profile`, profile)
     }
 }
 export const authAPI = {
     me() {
         return instAxios.get(`auth/me`)
     },
-    login(email, password, rememberMe = false) {
-        return instAxios.post(`auth/login`, {email, password, rememberMe})
+    login(email, password, rememberMe = false, captcha = null) {
+        return instAxios.post(`auth/login`, {email, password, rememberMe, captcha})
     },
     logout() {
         return instAxios.delete(`auth/login`)
+    }
+}
+export const securityAPI = {
+    getCaptchaURL() {
+        return instAxios.get(`security/get-captcha-url`)
     }
 }
