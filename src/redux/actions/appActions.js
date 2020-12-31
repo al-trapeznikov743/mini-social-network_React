@@ -6,7 +6,7 @@ export const initializedSuccess = () => {
         type: INITIALIZED_SUCCESS
     }
 }
-
+// redux-thunk
 export const initializeApp = () => {
     return (dispatch) => {
         let successPromise = dispatch(getAuthUserData())
