@@ -1,10 +1,14 @@
 import {INITIALIZED_SUCCESS} from '../types'
 
-const initialState = {
+type InitialStateType = {
+    initialized: boolean
+}
+
+const initialState: InitialStateType = {
     initialized: false
 }
 
-export const appReducer = (state = initialState, action) => {
+export const appReducer = (state = initialState, action: any): InitialStateType => {
     switch(action.type) {
         case INITIALIZED_SUCCESS: {
             return {
