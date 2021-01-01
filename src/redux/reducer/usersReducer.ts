@@ -1,3 +1,4 @@
+import {PhotosType} from './profileReducer'
 import {updateObjectInArray} from '../../utils/helpers/objectHelpers'
 import {
     FOLLOW,
@@ -9,17 +10,27 @@ import {
     UNFOLLOW
 } from '../types'
 
+export type UserType = {
+    id: number
+    name: string
+    uniqueUrlName: string | null
+    status: string | null
+    photos: PhotosType
+    followed: boolean
+}
 
 const initialState = {
-    users: [],
+    users: [] as Array<UserType>,
     pageSize: 5,
     totalUsersCount: 0,
     currentPage: 1,
     isFetching: true,
-    followingInProgress: []
+    followingInProgress: [] as Array<number> // array of users id
 }
 
-export const usersReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState
+
+export const usersReducer = (state = initialState, action: any): InitialStateType => {
     switch(action.type) {
         case FOLLOW: {
             return {

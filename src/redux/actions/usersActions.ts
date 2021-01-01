@@ -1,3 +1,4 @@
+import {UserType} from './../reducer/usersReducer'
 import {
     FOLLOW,
     SET_CURRENT_PAGE,
@@ -7,47 +8,106 @@ import {
     TOGGLE_IS_FOLLOWING,
     UNFOLLOW
 } from '../types'
-
 import {usersAPI} from '../../api/api'
 
 
-const follow = (userId) => {
+// Actions
+//----------------------------------------
+// followActionCreator
+// type
+type FollowActonType = {
+    type: typeof FOLLOW
+    id: number
+}
+// action
+const follow = (userId: number): FollowActonType => {
     return {
         type: FOLLOW,
         id: userId
     }
 }
-const unfollow = (userId) => {
+
+// unfollowActionCreator
+// type
+type UnfollowActionType = {
+    type: typeof UNFOLLOW
+    id: number
+}
+// action
+const unfollow = (userId: number): UnfollowActionType => {
     return {
         type: UNFOLLOW,
         id: userId
     }
 }
-const setUsers = (users) => {
+
+// setUsersActionCreator
+// type
+type SetUsersActionType = {
+    type: typeof SET_USERS
+    users: Array<UserType>
+}
+// action
+const setUsers = (users: Array<UserType>): SetUsersActionType => {
     return {
         type: SET_USERS,
         users
     }
 }
-const setCurrentPage = (pageNumber) => {
+
+// setCurrentPageActionCreator
+// type
+type SetCurrentPageActionType = {
+    type: typeof SET_CURRENT_PAGE
+    pageNumber: number
+}
+// action
+const setCurrentPage = (pageNumber: number): SetCurrentPageActionType => {
     return {
         type: SET_CURRENT_PAGE,
         pageNumber
     }
 }
-const setUsersTotalCount = (totalCount) => {
+
+// setUsersTotalCountActionCreator
+// type
+type SetUsersTotalCountActionType = {
+    type: typeof SET_TOTAL_USERS_COUNT
+    totalCount: number
+}
+// action
+const setUsersTotalCount = (totalCount: number): SetUsersTotalCountActionType => {
     return {
         type: SET_TOTAL_USERS_COUNT,
         totalCount
     }
 }
-const toggleIsFetching = (isFetching) => {
+
+// toggleIsFetchingActionCreator
+// type
+type ToggleIsFetchingActionType = {
+    type: typeof TOGGLE_IS_FETCHING
+    isFetching: boolean
+}
+// action
+const toggleIsFetching = (isFetching: boolean): ToggleIsFetchingActionType => {
     return {
         type: TOGGLE_IS_FETCHING,
         isFetching
     }
 }
-const toggleFollowingProgress = (isFetching, userId) => {
+
+// toggleFollowingProgressActionCreator
+// type
+type ToggleFollowingProgressActionType = {
+    type: typeof TOGGLE_IS_FOLLOWING
+    isFetching: boolean
+    userId: number
+}
+// action
+const toggleFollowingProgress = (
+    isFetching: boolean,
+    userId: number): ToggleFollowingProgressActionType => {
     return {
         type: TOGGLE_IS_FOLLOWING,
         isFetching,
@@ -55,9 +115,10 @@ const toggleFollowingProgress = (isFetching, userId) => {
     }
 }
 
-// redux-thunk
-export const getUsers = (page, pageSize) => {
-    return async (dispatch) => {
+// Redux-thunk
+//---------------------------------------------------
+export const getUsers = (page: number, pageSize: number) => {
+    return async (dispatch: any) => {
         dispatch(toggleIsFetching(true))
 
         const data = await usersAPI.getUsers(page, pageSize)
@@ -67,8 +128,8 @@ export const getUsers = (page, pageSize) => {
     }
 }
 
-export const getNextPage = (pageNumber, pageSize) => {
-    return async (dispatch) => {
+export const getNextPage = (pageNumber: number, pageSize: number) => {
+    return async (dispatch: any) => {
         dispatch(toggleIsFetching(true))
         dispatch(setCurrentPage(pageNumber))
 
@@ -78,11 +139,11 @@ export const getNextPage = (pageNumber, pageSize) => {
     }
 }
 
-export const changeFollow = (userId, followed) => {
+export const changeFollow = (userId: number, followed: boolean) => {
     
     const define = defineSubscription(followed)
 
-    return async (dispatch) => {
+    return async (dispatch: any) => {
         dispatch(toggleFollowingProgress(true, userId))
         const response = await define.apiMethod(userId)
         if(response.data.resultCode === 0) {
@@ -92,7 +153,7 @@ export const changeFollow = (userId, followed) => {
     }
 }
 
-const defineSubscription = (followed) => {
+const defineSubscription = (followed: boolean) => {
     if (followed) {
         return {
             apiMethod: usersAPI.unfollow.bind(usersAPI),

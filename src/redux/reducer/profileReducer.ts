@@ -6,16 +6,49 @@ import {
     SET_USER_PROFILE
 } from '../types'
 
+
+type PostType = {
+    id: number
+    message: string
+    likesCount: number
+}
+type ContactsType = {
+    github: string | null
+    vk: string | null
+    facebook: string | null
+    instagram: string | null
+    twitter: string | null
+    website: string | null
+    youtube: string | null
+    mainLink: string | null
+}
+export type PhotosType = {
+    small: string | null
+    large: string | null
+}
+
+export type ProfileType = {
+    userId: number
+    aboutMe: string | null
+    lookingForAJob: boolean
+    lookingForAJobDescription: string | null
+    fullName: string | null
+    contacts: ContactsType
+    photos: PhotosType
+}
+
 const initialState = {
     posts: [
         {id: 1, message: 'Hi, how are you?', likesCount: 12},
         {id: 2, message: 'It\'s my first post', likesCount: 9}
-    ],
-    profile: null,
+    ] as Array<PostType>,
+    profile: null as ProfileType | null,
     status: ''
 }
 
-export const profileReducer = (state = initialState, action) => {
+type InitialStateType = typeof initialState
+
+export const profileReducer = (state = initialState, action: any): InitialStateType => {
     switch(action.type) {
         case ADD_POST: {
             const newPost = {
@@ -49,7 +82,8 @@ export const profileReducer = (state = initialState, action) => {
         case SET_AVA_SUCCESS: {
             return {
                 ...state,
-                profile: {...state.profile, photos: action.photos}
+                // в процессе убрать приведение к типу, в логике такого быть не должно
+                profile: {...state.profile, photos: action.photos} as ProfileType
             }
         }
         default: return state
