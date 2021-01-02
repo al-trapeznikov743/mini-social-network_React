@@ -1,3 +1,4 @@
+import { AppStateType } from './../reduxStore';
 import {ProfileType, PhotosType} from './../reducer/profileReducer';
 import {stopSubmit} from 'redux-form'
 import {profileAPI} from '../../api/api'
@@ -8,10 +9,17 @@ import {
     SET_STATUS,
     SET_USER_PROFILE
 } from '../types'
+import { ThunkAction } from 'redux-thunk';
 
 
 // Actions
 //------------------------------------------
+export type ProfileActionType =
+    AddPostActionType |
+    DeletePostActionType |
+    SetUserProfileActionType |
+    SetStatusActionType |
+    SetAvatarActionType
 // addPostActionCreator
 // type
 type AddPostActionType = {
@@ -82,23 +90,24 @@ const setAvatar = (photos: PhotosType): SetAvatarActionType => {
 }
 
 // Redux-thunk
+type ProfileThunkType = ThunkAction<Promise<void>, AppStateType, unknown, ProfileActionType>
 //-------------------------------------------------------------
-export const getUserProfile = (userId: number) => {
-    return async (dispatch: any) => {
+export const getUserProfile = (userId: number): ProfileThunkType => {
+    return async (dispatch) => {
         const response = await profileAPI.getProfile(userId)
         dispatch(setUserProfile(response.data))
     }
 }
 
-export const getUserStatus = (userId: number) => {
-    return async (dispatch: any) => {
+export const getUserStatus = (userId: number): ProfileThunkType => {
+    return async (dispatch) => {
         const response = await profileAPI.getUserStatus(userId)
         dispatch(setStatus(response.data))
     }
 }
 
-export const updateStatus = (status: string) => {
-    return async (dispatch: any) => {
+export const updateStatus = (status: string): ProfileThunkType => {
+    return async (dispatch) => {
         const response = await profileAPI.updateStatus(status)
         if(response.data.resultCode === 0) {
             dispatch(setStatus(status))
@@ -106,8 +115,8 @@ export const updateStatus = (status: string) => {
     }
 }
 
-export const updateAvatar = (file: any) => {
-    return async (dispatch: any) => {
+export const updateAvatar = (file: any): ProfileThunkType => {
+    return async (dispatch) => {
         const response = await profileAPI.updateAvatar(file)
         if(response.data.resultCode === 0) {
             dispatch(setAvatar(response.data.data.photos))
@@ -115,14 +124,17 @@ export const updateAvatar = (file: any) => {
     }
 }
 
-export const updateProfile = (profile: ProfileType) => {
-    return async (dispatch: any, getState: any) => {
+export const updateProfile = (profile: ProfileType): ProfileThunkType => {
+    // типизировать getState
+    return async (dispatch, getState: any) => {
         const userId = getState().auth.userId
         const response = await profileAPI.updateProfile(profile)
         if(response.data.resultCode === 0) {
             dispatch(getUserProfile(userId))
         } else {
             const errorMessage = response.data.messages.length > 0 ? response.data.messages[0] : 'Some error'
+            // типизировать stopSubmit
+            // @ts-ignore
             dispatch(stopSubmit('editProfile', {_error: errorMessage}))
             return Promise.reject(errorMessage)
         }

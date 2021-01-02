@@ -1,13 +1,14 @@
 import React from 'react'
-// import {Redirect} from 'react-router-dom'
 import styles from './Dialogs.module.sass'
 import DialogItem from './DialogItem/DialogItem'
 import Message from './Message/Message'
 import {Field, reduxForm} from 'redux-form'
 import {Textarea} from '../common/formControls/FormControls'
 import {maxLengthCreator, required} from '../../utils/validators/validators'
+import {DialogsContainerPropsType} from './DialogsContainer'
 
-const Dialogs = (props) => {
+
+const Dialogs: React.FC<DialogsContainerPropsType> = (props) => {
     let dialogsElements = props.dialogsPage.dialogs.map(
         dialog => <DialogItem
                     name={dialog.name}
@@ -20,13 +21,10 @@ const Dialogs = (props) => {
                     key={message.id}/>
     )
 
-    const sendMessage = (value) => {
+    // типизировать value
+    const sendMessage = (value: any) => {
         props.sendMessage(value.newMessageBody)
     }
-
-    /* if(!props.isAuth) {
-        return <Redirect to='/login' />
-    } */
 
     return  <div className={styles.dialogs}>
                 <div className={styles.dialogsItems}>
@@ -43,7 +41,7 @@ const Dialogs = (props) => {
 
 const maxLength = maxLengthCreator(100)
 
-const AddMessageForm = (props) => {
+const AddMessageForm = (props: any) => {
     return <form onSubmit={props.handleSubmit}>
                 <div>
                     <Field

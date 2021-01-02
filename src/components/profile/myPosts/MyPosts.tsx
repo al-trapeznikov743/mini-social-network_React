@@ -1,12 +1,18 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import {PostType} from '../../../redux/reducer/profileReducer'
 import {maxLengthCreator, required} from '../../../utils/validators/validators'
 import {Textarea} from '../../common/formControls/FormControls'
 import styles from './MyPosts.module.sass'
 import Post from './post/Post'
 
 
-const MyPosts = React.memo((props) => {
+type MyPostsPropsType = {
+    posts: Array<PostType>
+    addPost: (newPostText: string) => void
+}
+
+const MyPosts: React.FC<MyPostsPropsType> = React.memo((props) => {
 
     let postsElements = props.posts.map(
         post => <Post
@@ -15,7 +21,8 @@ const MyPosts = React.memo((props) => {
                     key={post.id}/>
     )
 
-    const onAddPost = (value) => {
+    // типизировать value
+    const onAddPost = (value: any) => {
         props.addPost(value.newPostText)
     }
 
@@ -33,7 +40,12 @@ const MyPosts = React.memo((props) => {
 
 const maxLength = maxLengthCreator(50)
 
-const NewPostForm = (props) => {
+
+type NewPostFormPropsType = {
+    handleSubmit: any
+}
+
+const NewPostForm: React.FC<NewPostFormPropsType> = (props) => {
     return  <form onSubmit={props.handleSubmit}>
                 <Field
                     component={Textarea}

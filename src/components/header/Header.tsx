@@ -1,9 +1,10 @@
 import React from 'react'
 import {NavLink} from 'react-router-dom'
 import logo from '../../img/snake.png'
+import {HeaderContainerPropsType} from './HeaderContainer'
 import styles from './Header.module.sass'
 
-const Header = (props) => {
+const Header: React.FC<HeaderContainerPropsType> = (props) => {
     return  <header className ={styles.header}>
                 <a href='/#'>
                     {createLogo()}
@@ -17,6 +18,7 @@ const Header = (props) => {
             </header>
 }
 
+// типизировать функцию
 function createLogo() {
     return <img src = {logo} alt = 'logo' className = {styles.img}/>
 }

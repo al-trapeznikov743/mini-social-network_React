@@ -1,3 +1,4 @@
+import {ProfileActionType} from './../actions/profileActions'
 import {
     ADD_POST,
     DELETE_POST,
@@ -7,7 +8,7 @@ import {
 } from '../types'
 
 
-type PostType = {
+export type PostType = {
     id: number
     message: string
     likesCount: number
@@ -48,7 +49,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-export const profileReducer = (state = initialState, action: any): InitialStateType => {
+export const profileReducer = (state = initialState, action: ProfileActionType): InitialStateType => {
     switch(action.type) {
         case ADD_POST: {
             const newPost = {

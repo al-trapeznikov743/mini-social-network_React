@@ -2,13 +2,19 @@ import React from 'react'
 import {Field} from 'redux-form'
 // import styles from './FormControls.module.sass'
 
-export const Textarea = ({input, meta, ...props}) => {
+
+type PropsType = {
+    input: any
+    meta: any
+}
+
+export const Textarea: React.FC<PropsType> = ({input, meta, ...props}) => {
     return <div>
         <textarea {...input} {...props} />
     </div>
 }
 
-export const Input = ({input, meta, ...props}) => {
+export const Input: React.FC<PropsType> = ({input, meta, ...props}) => {
     return <div>
         <input {...input} {...props} />
     </div>
@@ -19,7 +25,7 @@ export const Input = ({input, meta, ...props}) => {
 
 // meta.touched && !input.value && <span>{meta.error}</span>
 
-export const fealdCreator = (props) => {
+export const fealdCreator = (props: any) => {
     return <div>
         <Field {...props} />
     </div>

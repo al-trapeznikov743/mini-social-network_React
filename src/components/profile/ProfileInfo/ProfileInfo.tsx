@@ -1,12 +1,21 @@
 import React, {useState} from 'react'
-import {connect} from 'react-redux'
 import styles from './ProfileInfo.module.sass'
 import Preloader from '../../common/preloader/Preloader'
 import ProfileStatus from './profileStatus/ProfileStatus'
 import {ProfileData, ProfileDataFormContainer} from './profileData/ProfileData'
-import {updateProfile} from '../../../redux/actions/profileActions'
+import {ProfileType} from '../../../redux/reducer/profileReducer'
 
-const ProfileInfo = (props) => {
+
+type ProfileInfoPropsType = {
+    profile: ProfileType | null
+    status: string
+    isOwner: boolean
+    updateProfile: (profile: ProfileType) => void
+    updateStatus: (status: string) => void
+    updateAvatar: (file: any) => void
+}
+
+const ProfileInfo: React.FC<ProfileInfoPropsType> = (props) => {
 
     const [editMode, setEditMode] = useState(false)
 
@@ -16,13 +25,16 @@ const ProfileInfo = (props) => {
 
     const profilePhoto = 'https://static.mk.ru/upload/entities/2020/11/05/12/articles/detailPicture/ce/c5/72/0a/9646efae17d2f96acb2a10b5d02f7377.jpg'
 
-    const changeMainPhoto = (e) => {
+    // типизировать event
+    const changeMainPhoto = (e: any) => {
         if (e.target.files.length) {
             props.updateAvatar(e.target.files[0])
         }
     }
 
-    const onSubmit = (formData) => {
+    // типизировать formData and then
+    const onSubmit = (formData: any) => {
+        // @ts-ignore
         props.updateProfile(formData).then(() => {
             setEditMode(false)
         })
@@ -38,6 +50,8 @@ const ProfileInfo = (props) => {
                         ? <ProfileDataFormContainer
                             initialValues={props.profile}
                             onSubmit={onSubmit}
+                            // типизировать передаваемые props-ы
+                            // @ts-ignore
                             profile={props.profile}/>
                         : <ProfileData
                             profile={props.profile}
@@ -47,4 +61,4 @@ const ProfileInfo = (props) => {
             </div>
 }
 
-export default connect(null, {updateProfile})(ProfileInfo)
+export default ProfileInfo

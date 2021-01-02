@@ -1,3 +1,4 @@
+import {AuthActionType} from './../actions/authActions'
 import {GET_CAPTCHA_URL_SUCCESS, SET_USER_DATA} from '../types'
 
 // types
@@ -20,10 +21,10 @@ const initialState: InitialStateType = {
     captchaURL: null
 }
 
-export const authReducer = (state = initialState, action: any): InitialStateType => {
+export const authReducer = (state = initialState, action: AuthActionType): InitialStateType => {
     switch(action.type) {
         case SET_USER_DATA:
-        case GET_CAPTCHA_URL_SUCCESS: 
+        case GET_CAPTCHA_URL_SUCCESS:
         {
             return {
                 ...state,
