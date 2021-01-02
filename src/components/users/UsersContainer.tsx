@@ -16,10 +16,37 @@ import {
 } from '../../redux/selectors/usersSelectors'
 import Users from './Users'
 import Preloader from '../common/preloader/Preloader'
+import {UserType} from '../../redux/reducer/usersReducer'
+import {AppStateType} from '../../redux/reduxStore'
 
-class UsersContainer extends React.Component {
+
+
+type UsersContainerOwnPropsType = {
+    pageTitle: string
+}
+type UsersContainerStatePropsType = {
+    users: Array<UserType>
+    followingInProgress: Array<number>
+    pageSize: number
+    currentPage: number
+    totalUsersCount: number
+    isFetching: boolean
+}
+type UsersContainerDispatchPropsType = {
+    getUsers: (pageNumber: number, pageSize: number) => void
+    getNextPage: (pageNumber: number, pageSize: number) => void
+    changeFollow: (userId: number, followed: boolean) => void
+}
+
+type UsersContainerPropsType = UsersContainerOwnPropsType
+    & UsersContainerStatePropsType
+    & UsersContainerDispatchPropsType
+
+
+class UsersContainer extends React.Component<UsersContainerPropsType> {
+    photoURL: string
     // если только "super(props)", constructor можно не писать
-    constructor(props) {
+    constructor(props: any) {
         super(props)
         this.photoURL = 'https://static.mk.ru/upload/entities/2020/11/05/12/articles/detailPicture/ce/c5/72/0a/9646efae17d2f96acb2a10b5d02f7377.jpg'
     }
@@ -28,7 +55,7 @@ class UsersContainer extends React.Component {
 
         this.props.getUsers(this.props.currentPage, this.props.pageSize)
     }
-    onPageChanged = (pageNumber) => {
+    onPageChanged = (pageNumber: number) => {
 
         this.props.getNextPage(pageNumber, this.props.pageSize)
     }
@@ -36,6 +63,7 @@ class UsersContainer extends React.Component {
         return <>
         {this.props.isFetching ? <Preloader /> : null}
             <Users
+                pageTitle={this.props.pageTitle}
                 users={this.props.users}
                 photoURL={this.photoURL}
                 totalUsersCount={this.props.totalUsersCount}
@@ -49,7 +77,7 @@ class UsersContainer extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapStateToProps = (state: AppStateType): UsersContainerStatePropsType => {
     return {
         users: getUsersSelector(state),
         pageSize: getPageSizeSelector(state),
@@ -61,9 +89,9 @@ const mapStateToProps = (state) => {
 }
 
 export default compose(
-    connect(mapStateToProps, {
-        getUsers,
-        getNextPage,
-        changeFollow
-    })
+    connect<
+        UsersContainerStatePropsType,
+        UsersContainerDispatchPropsType,
+        UsersContainerOwnPropsType,
+        AppStateType>(mapStateToProps, {getUsers, getNextPage, changeFollow})
 )(UsersContainer)

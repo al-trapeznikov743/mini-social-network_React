@@ -1,9 +1,18 @@
 import React from 'react'
 import {Field, reduxForm} from 'redux-form'
+import {ProfileType} from '../../../../redux/reducer/profileReducer'
 import {maxLength, required} from '../../../../utils/validators/validators'
 import {Input, Textarea} from '../../../common/formControls/FormControls'
 
-export const ProfileData = ({profile, isOwner, toggleEditMode}) => {
+
+// types ProfileData
+type ProfileDataPropsType = {
+    profile: ProfileType
+    isOwner: boolean
+    toggleEditMode: () => void
+}
+
+export const ProfileData: React.FC<ProfileDataPropsType> = ({profile, isOwner, toggleEditMode}) => {
     return <div>
         <div>
             <b>Full name</b>: {profile.fullName}
@@ -21,6 +30,8 @@ export const ProfileData = ({profile, isOwner, toggleEditMode}) => {
         </div>
         <div>
             <b>Contacts: </b> {Object.keys(profile.contacts).map(key => {
+                // типизировать передаваемые в Contact props-ы
+                // @ts-ignore
                 return <Contact contactTitle={key} contactValue={profile.contacts[key]} />
             })}
         </div>
@@ -28,7 +39,15 @@ export const ProfileData = ({profile, isOwner, toggleEditMode}) => {
     </div>
 }
 
-const ProfileDataForm = (props) => {
+
+// types ProfileDataForm
+type ProfileDataFormPropsType = {
+    handleSubmit: any
+    profile: ProfileType
+    error: any
+}
+
+const ProfileDataForm: React.FC<ProfileDataFormPropsType> = (props) => {
     return <form onSubmit={props.handleSubmit}>
         <div>
             <b>Full name</b>:
@@ -80,10 +99,17 @@ const ProfileDataForm = (props) => {
     </form>
 }
 
+// типизировать форму
+// @ts-ignore
 export const ProfileDataFormContainer = reduxForm({form: 'editProfile'})(ProfileDataForm)
 
+// types Contact
+type ContactPropsType = {
+    contactTitle: string
+    contactValue: string
+}
 
-const Contact = ({contactTitle, contactValue}) => {
+const Contact: React.FC<ContactPropsType> = ({contactTitle, contactValue}) => {
     return <div>
         <b>{contactTitle}</b>: {contactValue}
     </div>

@@ -1,3 +1,5 @@
+import {ThunkAction} from 'redux-thunk'
+import {AppStateType} from './../reduxStore';
 import {UserType} from './../reducer/usersReducer'
 import {
     FOLLOW,
@@ -13,6 +15,14 @@ import {usersAPI} from '../../api/api'
 
 // Actions
 //----------------------------------------
+export type UsersActionType =
+    FollowActonType |
+    UnfollowActionType |
+    SetUsersActionType |
+    SetCurrentPageActionType |
+    SetUsersTotalCountActionType |
+    ToggleIsFetchingActionType |
+    ToggleFollowingProgressActionType
 // followActionCreator
 // type
 type FollowActonType = {
@@ -115,10 +125,12 @@ const toggleFollowingProgress = (
     }
 }
 
+
 // Redux-thunk
+type UsersThunkType = ThunkAction<Promise<void>, AppStateType, unknown, UsersActionType>
 //---------------------------------------------------
-export const getUsers = (page: number, pageSize: number) => {
-    return async (dispatch: any) => {
+export const getUsers = (page: number, pageSize: number): UsersThunkType => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true))
 
         const data = await usersAPI.getUsers(page, pageSize)
@@ -128,8 +140,8 @@ export const getUsers = (page: number, pageSize: number) => {
     }
 }
 
-export const getNextPage = (pageNumber: number, pageSize: number) => {
-    return async (dispatch: any) => {
+export const getNextPage = (pageNumber: number, pageSize: number): UsersThunkType => {
+    return async (dispatch) => {
         dispatch(toggleIsFetching(true))
         dispatch(setCurrentPage(pageNumber))
 
@@ -139,11 +151,11 @@ export const getNextPage = (pageNumber: number, pageSize: number) => {
     }
 }
 
-export const changeFollow = (userId: number, followed: boolean) => {
+export const changeFollow = (userId: number, followed: boolean): UsersThunkType => {
     
     const define = defineSubscription(followed)
 
-    return async (dispatch: any) => {
+    return async (dispatch) => {
         dispatch(toggleFollowingProgress(true, userId))
         const response = await define.apiMethod(userId)
         if(response.data.resultCode === 0) {
@@ -153,6 +165,7 @@ export const changeFollow = (userId: number, followed: boolean) => {
     }
 }
 
+// добавить типизацию функции defineSubscription
 const defineSubscription = (followed: boolean) => {
     if (followed) {
         return {

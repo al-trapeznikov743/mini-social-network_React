@@ -1,9 +1,10 @@
+import {DialogsActionType} from './../actions/dialogsActions'
 import {
     SEND_MESSAGE
 } from '../types'
 
 // types
-type InitialStateType = typeof initialState
+export type DialogsInitialStateType = typeof initialState
 type DialogType = {
     id: number
     name: string
@@ -28,7 +29,7 @@ const initialState = {
     ] as Array<MessageType>
 }
 
-export const dialogsReducer = (state = initialState, action: any): InitialStateType => {
+export const dialogsReducer = (state = initialState, action: DialogsActionType): DialogsInitialStateType => {
     switch(action.type) {
         case SEND_MESSAGE: {
             const newMessage = {

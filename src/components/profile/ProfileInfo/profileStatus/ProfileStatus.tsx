@@ -2,7 +2,13 @@ import React, {useState, useEffect} from 'react'
 // import {profileAPI} from '../../../../api/api'
 // import styles from '../ProfileInfo.module.sass'
 
-const ProfileStatus = (props) => {
+
+type ProfileStatusPropsType = {
+    status: string
+    updateStatus: (status: string) => void
+}
+
+const ProfileStatus: React.FC<ProfileStatusPropsType> = (props) => {
     const [editMode, setEditMode] = useState(false)
     const [status, setStatus] = useState(props.status)
 
@@ -23,7 +29,8 @@ const ProfileStatus = (props) => {
         }
     }
 
-    const onStatusChange = (event) => {
+    // типизировать event
+    const onStatusChange = (event: any) => {
         setStatus(event.currentTarget.value)
     }
 

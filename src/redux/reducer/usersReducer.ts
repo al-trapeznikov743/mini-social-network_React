@@ -1,4 +1,5 @@
 import {PhotosType} from './profileReducer'
+import {UsersActionType} from '../actions/usersActions'
 import {updateObjectInArray} from '../../utils/helpers/objectHelpers'
 import {
     FOLLOW,
@@ -30,7 +31,7 @@ const initialState = {
 
 type InitialStateType = typeof initialState
 
-export const usersReducer = (state = initialState, action: any): InitialStateType => {
+export const usersReducer = (state = initialState, action: UsersActionType): InitialStateType => {
     switch(action.type) {
         case FOLLOW: {
             return {

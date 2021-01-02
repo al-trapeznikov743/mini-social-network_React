@@ -4,6 +4,7 @@ import {
 
 // Actions
 //---------------------------------------------------
+export type DialogsActionType = SendMessageActionType
 // sendMessageActionCreator
 // type
 type SendMessageActionType = {
